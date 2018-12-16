@@ -1,0 +1,39 @@
+package com.vbiso.concurent.latch;
+
+/**
+ * @Author: wenliujie
+ * @Description:
+ * @Date: Created in 6:17 PM 2018/12/16
+ * @Modified By:
+ */
+public class CountDownLatch extends Latch {
+
+  public CountDownLatch(int limit) {
+    super(limit);
+  }
+
+  @Override
+  public void await() throws InterruptedException {
+    synchronized (this){
+      while (limit > 0){
+        this.wait();
+      }
+    }
+  }
+
+  @Override
+  public void countDown() {
+    synchronized (this){
+      if(limit<0){
+        throw new IllegalStateException("all of task already arrived");
+      }
+      limit--;
+      this.notifyAll();
+    }
+  }
+
+  @Override
+  public int getUnarrived() {
+    return limit;
+  }
+}
