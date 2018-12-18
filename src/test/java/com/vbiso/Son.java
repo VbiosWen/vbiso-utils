@@ -16,6 +16,7 @@ public class Son extends Father implements Grand{
 
   public static void main(String[] args){
     Grand grand=new Son("test");
+    System.out.println(2>>1);
     grand.sout();
   }
 }
