@@ -48,9 +48,9 @@ public class FileUtil {
   public static List<String> getFileStringLines(InputStream inputStream) throws IOException {
     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream,
         StandardCharsets.UTF_8));
-    List<String> list = new ArrayList<>(1000000);
-    String line = null;
-    for (line = reader.readLine(); line != null; ) {
+    List<String> list = new ArrayList<>();
+    String line;
+    while ((line=reader.readLine())!=null){
       list.add(line);
     }
     return list;

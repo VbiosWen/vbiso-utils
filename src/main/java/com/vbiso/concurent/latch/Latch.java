@@ -1,5 +1,7 @@
 package com.vbiso.concurent.latch;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @Author: wenliujie
  * @Description:
@@ -15,6 +17,8 @@ public abstract class Latch {
   }
 
   public abstract void await() throws InterruptedException;
+
+  public abstract void await(TimeUnit unit,long time) throws InterruptedException,WaitTimeOutException;
 
   public abstract void countDown();
 

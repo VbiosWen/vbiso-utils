@@ -41,7 +41,11 @@ public class ProgrammerTravel extends Thread {
     new ProgrammerTravel(latch,"gavin","walking").start();
     new ProgrammerTravel(latch,"jack","subway").start();
     new ProgrammerTravel(latch,"dillon","bicycle").start();
-    latch.await();
-    System.out.println("=== all of programmer arrived ===");
+    try {
+      latch.await(TimeUnit.SECONDS,5);
+      System.out.println("=== all of programmer arrived ===");
+    } catch (WaitTimeOutException e) {
+      e.printStackTrace();
+    }
   }
 }
