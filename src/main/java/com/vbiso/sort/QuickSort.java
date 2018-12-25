@@ -1,7 +1,5 @@
 package com.vbiso.sort;
 
-import java.util.Arrays;
-
 /**
  * @Author: wenliujie
  * @Description: 快速排序
