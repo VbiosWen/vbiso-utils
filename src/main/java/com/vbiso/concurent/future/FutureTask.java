@@ -19,7 +19,7 @@ public class FutureTask<T> implements Future<T> {
   public T get() throws InterruptedException {
     synchronized (LOCK) {
       while (!isDone) {
-       wait();
+       LOCK.wait();
       }
       return result;
     }

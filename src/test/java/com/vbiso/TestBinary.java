@@ -30,4 +30,27 @@ public class TestBinary {
     System.out.println((char) a);
   }
 
+  @Test
+  public void testBinary(){
+    long USER_TAG_HAS_VERIFY_MOBILE = 1L << 48L;
+    long isTry=1L<<48L;
+    long tagBit=1420569044060160L;
+
+    long userTag=1420569044060160L;
+
+    long userTagUnset=userTag&(~isTry);
+    System.out.println(userTagUnset+"====");
+
+    System.out.println((userTag|isTry)+"========");
+
+    System.out.println(((userTag)&(~isTry)));
+
+
+    long userTag2=tagBit&(~USER_TAG_HAS_VERIFY_MOBILE);
+    System.out.println(USER_TAG_HAS_VERIFY_MOBILE==(userTag&USER_TAG_HAS_VERIFY_MOBILE));
+    System.out.println(userTag);
+    System.out.println(tagBit&(~USER_TAG_HAS_VERIFY_MOBILE));
+    //System.out.println((tagBit&(~USER_TAG_HAS_VERIFY_MOBILE))|USER_TAG_HAS_VERIFY_MOBILE==);
+  }
+
 }
