@@ -38,4 +38,10 @@ public class SortTest {
     sort.sort(array,SortType.ASC);
     Arrays.asList(array).forEach(number-> System.out.printf("%d\t",number));
   }
+
+  @Test
+  public void testStringLength(){
+    String s="【FENDAS】新年战袍，1月7日10:00开售，每满200减10，领券折上折戳 https://c.tb.cn/c.0Xbffo 回T退订";
+    System.out.println(s.length());
+  }
 }
