@@ -1,6 +1,5 @@
 package com.vbiso.concurent.event_bus;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;

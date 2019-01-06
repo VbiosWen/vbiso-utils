@@ -1,5 +1,6 @@
 package com.vbiso.concurent.event_bus;
 
+import com.vbiso.utils.ThreadPoolUtil;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -28,7 +29,7 @@ public class SimpleSubscriber {
     System.out.println("----------");
     bus.post("hello","test");
 
-    Bus bus1=new AsyncEventBus("TestBus", (ThreadPoolExecutor) Executors.newFixedThreadPool(10));
+    Bus bus1=new AsyncEventBus("TestBus", ThreadPoolUtil.createDefaultThreadPool());
 
     bus1.register(new SimpleSubscriber());
     bus1.post("Hello");
