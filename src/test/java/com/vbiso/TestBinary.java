@@ -1,5 +1,6 @@
 package com.vbiso;
 
+import java.math.BigDecimal;
 import org.junit.Test;
 
 /**
@@ -51,6 +52,18 @@ public class TestBinary {
     System.out.println(userTag);
     System.out.println(tagBit&(~USER_TAG_HAS_VERIFY_MOBILE));
     //System.out.println((tagBit&(~USER_TAG_HAS_VERIFY_MOBILE))|USER_TAG_HAS_VERIFY_MOBILE==);
+  }
+
+  @Test
+  public void testDouble(){
+    double a=1.245;
+    BigDecimal bigDecimal=new BigDecimal(a);
+    double v = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+    System.out.println(v);
+    double floor = Math.floor(1.2);
+    System.out.println(floor);
+    double ceil = Math.ceil(1.2);
+    System.out.println(ceil);
   }
 
 }

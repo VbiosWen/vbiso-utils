@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class AsyncEventBus extends EventBus {
 
 
-  AsyncEventBus(String busName,
+  private AsyncEventBus(String busName,
       EventExceptionHandler exceptionHandler, ThreadPoolExecutor executor) {
     super(busName, exceptionHandler, executor);
   }

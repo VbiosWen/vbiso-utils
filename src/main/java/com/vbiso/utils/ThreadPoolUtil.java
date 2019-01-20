@@ -42,7 +42,7 @@ public class ThreadPoolUtil {
   }
 
   private ThreadPoolUtil(int initThreadSize, int maxThreadSize, TimeUnit timeUnit,
-      long keepAliveTime, String threadName, int waitQueueSize, RejectedExecutionHandler handler) {
+      long keepAliveTime,  String threadName, int waitQueueSize, RejectedExecutionHandler handler) {
 
     LinkedBlockingQueue<Runnable> queue = new LinkedBlockingQueue<>(waitQueueSize);
     this.executor = new ThreadPoolExecutor(initThreadSize, maxThreadSize, keepAliveTime, timeUnit,

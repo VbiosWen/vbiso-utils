@@ -43,11 +43,11 @@ public class ActiveServiceFactory {
         this.checkMethod(method);
         ActiveMessage.Builder builder=new Builder();
         builder.useMethod(method).withObjects(args).forService(instance);
-        Object result=null;
+        ActiveFuture<Object> result=null;
         if(this.isReturnFutureType(method)){
           result=new ActiveFuture<>();
 
-          builder.returnFuture((ActiveFuture<Object>) result);
+          builder.returnFuture(result);
         }
         queue.offer(builder.build());
         return result;

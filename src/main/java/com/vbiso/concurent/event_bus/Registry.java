@@ -18,13 +18,13 @@ public class Registry {
 
   private final ConcurrentHashMap<String, ConcurrentLinkedQueue<Subscriber>> subscriberContainer = new ConcurrentHashMap<>();
 
-  public void bind(Object subscriber) {
+  void bind(Object subscriber) {
 
     List<Method> subscribeMethods = getSubscribeMethods(subscriber);
     subscribeMethods.forEach(method -> tierSubscriber(subscriber, method));
   }
 
-  public void unbind(Object subscriber) {
+  void unbind(Object subscriber) {
     subscriberContainer.forEach((key, queue) -> queue.forEach(s -> {
       if (s.getSubscribeObject() == subscriber) {
         s.setDiable(true);
@@ -32,7 +32,7 @@ public class Registry {
     }));
   }
 
-  public ConcurrentLinkedQueue<Subscriber> scanSubscriber(final String topic) {
+  ConcurrentLinkedQueue<Subscriber> scanSubscriber(final String topic) {
     return subscriberContainer.get(topic);
   }
 

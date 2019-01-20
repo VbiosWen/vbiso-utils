@@ -30,8 +30,7 @@ public class JsonUtil {
   }
 
   @SuppressWarnings("unchecked")
-  public static <T> T parse(String str, Class<T> clazz,
-      Class<String> stringClass) throws JsonException  {
+  public static <T> T parse(String str, Class<T> clazz) throws JsonException  {
     try {
       return mapper.readValue(str, clazz);
     } catch (IOException e) {

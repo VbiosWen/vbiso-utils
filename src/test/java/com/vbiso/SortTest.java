@@ -44,4 +44,11 @@ public class SortTest {
     String s="【FENDAS】新年战袍，1月7日10:00开售，每满200减10，领券折上折戳 https://c.tb.cn/c.0Xbffo 回T退订";
     System.out.println(s.length());
   }
+
+  @Test
+  public void testHello(){
+    double id=167503081005736223.0;
+    System.out.println((long)Double.MAX_VALUE);
+    System.out.println((long)(id));
+  }
 }

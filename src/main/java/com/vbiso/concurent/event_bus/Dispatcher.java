@@ -40,27 +40,27 @@ public class Dispatcher {
     subscribers.stream().filter(subscriber -> !subscriber.isDiable())
         .filter(subscriber -> {
           Method subscribeMethod = subscriber.getSubscribeMethod();
-          Class<?> aClass=subscribeMethod.getParameterTypes()[0];
+          Class<?> aClass = subscribeMethod.getParameterTypes()[0];
           return (aClass.isAssignableFrom(event.getClass()));
-        }).forEach(subscriber -> readInvokeSubscribe(subscriber,event,bus));
+        }).forEach(subscriber -> readInvokeSubscribe(subscriber, event, bus));
   }
 
   private void readInvokeSubscribe(Subscriber subscriber, Object event, Bus bus) {
     Method subscribeMethod = subscriber.getSubscribeMethod();
     Object subscribeObject = subscriber.getSubscribeObject();
-    executorService.execute(()->{
+    executorService.execute(() -> {
       try {
-        subscribeMethod.invoke(subscribeObject,event);
+        subscribeMethod.invoke(subscribeObject, event);
       } catch (Exception e) {
-        if(Objects.nonNull(exceptionHandler)){
-          exceptionHandler.handle(e,new BaseEventContext(bus.getBusName(),subscriber,event));
+        if (Objects.nonNull(exceptionHandler)) {
+          exceptionHandler.handle(e, new BaseEventContext(bus.getBusName(), subscriber, event));
         }
       }
     });
   }
 
   public void close() {
-    if(executorService instanceof ExecutorService){
+    if (executorService instanceof ExecutorService) {
       ((ExecutorService) executorService).shutdown();
     }
   }
