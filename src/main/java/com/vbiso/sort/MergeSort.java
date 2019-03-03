@@ -1,5 +1,9 @@
 package com.vbiso.sort;
 
+import java.util.Arrays;
+import scala.Array;
+import scala.Int;
+
 /**
  * @Author: wenliujie
  * @Description:
@@ -52,5 +56,12 @@ public class MergeSort implements Sort {
       j++;
       k++;
     }
+  }
+
+  public static void main(String[] args){
+    Integer[] arr =new Integer[]{1,0};
+    MergeSort mergeSort =new MergeSort();
+    mergeSort.sort(arr,SortType.ASC);
+    Arrays.stream(arr).forEach(System.out::println);
   }
 }

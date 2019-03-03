@@ -27,7 +27,7 @@ public class ProgrammerTravel extends Thread {
   public void run() {
     System.out.println(programer+ "start take the transportation[" + transportation+ "]");
     try{
-      TimeUnit.SECONDS.sleep(ThreadLocalRandom.current().nextInt(10));
+      TimeUnit.SECONDS.sleep(ThreadLocalRandom.current().nextInt(100));
     } catch (InterruptedException e) {
       e.printStackTrace();
     }

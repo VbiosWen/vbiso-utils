@@ -29,12 +29,8 @@ public class JsonUtil {
     }
   }
 
-  @SuppressWarnings("unchecked")
-  public static <T> T parse(String str, Class<T> clazz) throws JsonException  {
-    try {
-      return mapper.readValue(str, clazz);
-    } catch (IOException e) {
-      throw new JsonException(e);
-    }
+  @SuppressWarnings("rawtypes")
+  public static <T> T parse(String str, Class<T> clazz) throws IOException  {
+    return mapper.readValue(str, clazz);
   }
 }

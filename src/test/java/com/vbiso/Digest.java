@@ -1,6 +1,9 @@
 package com.vbiso;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import org.junit.Test;
 
@@ -156,6 +159,12 @@ public class Digest {
     }
   }
 
+  @Test
+  public void testLam(){
+    List<Integer> list = Arrays.asList(1,2,3,4,5,6,7,8,9,11,1,223,23);
+    list.stream().filter(str -> str >3).forEach(System.out::println);
+  }
+
 //  @Test
 //  public void testPermutation(){
 //    String str="abcdefg";
@@ -169,4 +178,18 @@ public class Digest {
 //  private void permute(String str,int low,int len){
 //    if()
 //  }
+
+  @Test
+  public void testDigui(){
+    int a =10;
+    digui(a);
+  }
+
+  private void digui(int a) {
+    if(a>0){
+      digui(a-1);
+    }else{
+      System.out.println(a);
+    }
+  }
 }
