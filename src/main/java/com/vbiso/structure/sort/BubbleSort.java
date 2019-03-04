@@ -1,6 +1,10 @@
 package com.vbiso.sort;
 
 
+import com.vbiso.structure.sort.Sort;
+import com.vbiso.structure.sort.SortType;
+import com.vbiso.structure.sort.SortUtil;
+
 /**
  * @Author: wenliujie
  * @Description: 冒泡排序, 优化后

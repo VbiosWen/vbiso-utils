@@ -1,4 +1,4 @@
-package com.vbiso.sort;
+package com.vbiso.structure.sort;
 
 /**
  * @Author: wenliujie

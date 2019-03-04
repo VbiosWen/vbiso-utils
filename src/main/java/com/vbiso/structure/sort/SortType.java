@@ -1,4 +1,4 @@
-package com.vbiso.sort;
+package com.vbiso.structure.sort;
 
 /**
  * @Author: wenliujie
@@ -6,7 +6,7 @@ package com.vbiso.sort;
  * @Date: Created in 7:12 PM 2018/12/18
  * @Modified By:
  */
-public enum SortType {
+public enum  SortType {
 
   ASC,DESC
 }

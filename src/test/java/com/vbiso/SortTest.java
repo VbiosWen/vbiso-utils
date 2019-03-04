@@ -1,10 +1,10 @@
 package com.vbiso;
 
-import com.vbiso.sort.BubbleSort;
-import com.vbiso.sort.MergeSort;
-import com.vbiso.sort.QuickSort;
-import com.vbiso.sort.Sort;
-import com.vbiso.sort.SortType;
+import com.vbiso.structure.sort.BubbleSort;
+import com.vbiso.structure.sort.MergeSort;
+import com.vbiso.structure.sort.QuickSort;
+import com.vbiso.structure.sort.Sort;
+import com.vbiso.structure.sort.SortType;
 import java.util.Arrays;
 import org.junit.Test;
 

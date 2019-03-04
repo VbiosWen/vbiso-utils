@@ -1,8 +1,6 @@
-package com.vbiso.sort;
+package com.vbiso.structure.sort;
 
 import java.util.Arrays;
-import scala.Array;
-import scala.Int;
 
 /**
  * @Author: wenliujie
