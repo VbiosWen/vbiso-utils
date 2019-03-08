@@ -1,5 +1,7 @@
 package com.vbiso.structure.tree;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -11,12 +13,28 @@ import java.util.Objects;
 public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
 
 
+  private TreeNode<AnyType> root;
+
+
+  public BinarySearchTree(Collection<AnyType> collection){
+    this.root = new TreeNode<>(collection);
+  }
+
+
   private static class TreeNode<AnyType extends Comparable<? super AnyType>> {
 
     private TreeNode<AnyType> root;
 
     public TreeNode() {
       this.root = null;
+    }
+
+
+    public TreeNode(Collection<AnyType> collection) {
+
+      for (AnyType anyType : collection) {
+        insert(anyType);
+      }
     }
 
     public void makeEmpty() {
@@ -54,9 +72,9 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
     }
 
     private TreeNode<AnyType> findMin(TreeNode<AnyType> root) {
-      if(Objects.isNull(root)){
+      if (Objects.isNull(root)) {
         return null;
-      }else if(root.left ==null){
+      } else if (root.left == null) {
         return root;
       }
       return findMax(root.left);
@@ -72,10 +90,10 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
 
     private TreeNode<AnyType> findMax(TreeNode<AnyType> root) {
 
-      if(Objects.isNull(root)){
+      if (Objects.isNull(root)) {
         return null;
       } else {
-        while (Objects.nonNull(root.right)){
+        while (Objects.nonNull(root.right)) {
           root = root.right;
         }
       }
@@ -87,19 +105,19 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
     }
 
     private TreeNode<AnyType> insert(AnyType element, TreeNode<AnyType> root) {
-      if(Objects.isNull(root)){
+      if (Objects.isNull(root)) {
         return new TreeNode<>(element);
       }
-      int compareResult= element.compareTo(root.element);
-      if(compareResult < 0){
-        root.left = insert(element,root.left);
-      }else if (compareResult > 0){
-        root.right = insert(element,root.right);
+      int compareResult = element.compareTo(root.element);
+      if (compareResult < 0) {
+        root.left = insert(element, root.left);
+      } else if (compareResult > 0) {
+        root.right = insert(element, root.right);
       }
       return root;
     }
 
-    public void remove(AnyType element) {
+    private void remove(AnyType element) {
       if (isEmpty()) {
         throw new RuntimeException();
       }
@@ -107,11 +125,39 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
     }
 
     private TreeNode<AnyType> remove(AnyType element, TreeNode<AnyType> root) {
-      return null;
+      if (Objects.isNull(root)) {
+        return root;
+      }
+
+      int compareResult = element.compareTo(root.element);
+      if (compareResult < 0) {
+        root.left = remove(element, root.left);
+      } else if (compareResult > 0) {
+        root.right = remove(element, root.right);
+      } else if (Objects.nonNull(root.left) && Objects.nonNull(root.right)) {
+        root.element = Objects.requireNonNull(findMin(root.right)).element;
+        root.right = remove(root.element, root.right);
+      } else {
+        root = (Objects.nonNull(root.left)) ? root.left : root.right;
+      }
+      return root;
     }
 
     public void printTree() {
+      if (isEmpty()) {
+        System.out.println("empty tree");
+      } else {
+        printTree(root);
+      }
 
+    }
+
+    private void printTree(TreeNode<AnyType> root) {
+      if (Objects.nonNull(root)) {
+        printTree(root.left);
+        System.out.println(root.element);
+        printTree(root.right);
+      }
     }
 
     TreeNode(AnyType element) {
@@ -131,6 +177,13 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
     TreeNode<AnyType> left;
     //右儿子
     TreeNode<AnyType> right;
+  }
+
+  public static void main(String[] args) {
+    BinarySearchTree<Integer> binarySearchTree = new BinarySearchTree<>(Arrays.asList(3,4,3,1,2,4,6,5,6,73,3234,343));
+
+    binarySearchTree.root.printTree();
+    binarySearchTree.root.remove(5);
   }
 
 }

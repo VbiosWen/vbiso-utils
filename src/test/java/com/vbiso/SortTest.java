@@ -1,6 +1,5 @@
 package com.vbiso;
 
-import com.vbiso.structure.sort.BubbleSort;
 import com.vbiso.structure.sort.MergeSort;
 import com.vbiso.structure.sort.QuickSort;
 import com.vbiso.structure.sort.Sort;
@@ -25,7 +24,7 @@ public class SortTest {
 
   @Test
   public void sortBubbleSort(){
-    Sort sort=new BubbleSort();
+    Sort sort=new com.vbiso.sort.BubbleSort();
     Integer[] array = new Integer[]{98, 97, 96, 95, 94};
     sort.sort(array,SortType.DESC);
     Arrays.asList(array).forEach(number-> System.out.printf("%d\t",number));
