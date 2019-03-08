@@ -33,7 +33,7 @@ public class AvlTree<AnyType extends Comparable<? super AnyType>> {
     return Objects.isNull(t) ? -1 : t.height;
   }
 
-  private AvlNode<AnyType> insert(AnyType element, AvlNode<AnyType> t) {
+  public AvlNode<AnyType> insert(AnyType element, AvlNode<AnyType> t) {
     if (Objects.isNull(t)) {
       return new AvlNode<>(element);
     }
