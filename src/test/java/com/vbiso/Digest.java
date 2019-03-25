@@ -1,7 +1,6 @@
 package com.vbiso;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -191,5 +190,11 @@ public class Digest {
     }else{
       System.out.println(a);
     }
+  }
+
+  @Test
+  public void testStr(){
+    String str = "【yaoyantest】老朋友还记得去年春天您与我的那场约会吗，一周年到了，今年優惠尤其大，滿減優惠哲上哲、特價秒殺零点抢、快来看看吧！";
+    System.out.println(str.length());
   }
 }

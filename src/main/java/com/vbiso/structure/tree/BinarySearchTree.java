@@ -77,7 +77,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
       } else if (root.left == null) {
         return root;
       }
-      return findMax(root.left);
+      return findMin(root.left);
     }
 
     @SuppressWarnings("all")

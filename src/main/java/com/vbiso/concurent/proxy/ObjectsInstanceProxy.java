@@ -20,19 +20,22 @@ public class ObjectsInstanceProxy<T> implements InvocationHandler {
 
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-    System.out.println(proxy.getClass().getName());
-    return method.invoke(subject,args);
+
+    System.out.println(method.getName());
+    return "1";
   }
 
   public static void main(String[] args) throws InterruptedException {
 
-    Message message=new TestMessage("test");
+    Message message = new TestMessage("test");
 
-   message = (Message) Proxy
+    message = (Message) Proxy
         .newProxyInstance(message.getClass().getClassLoader(), message.getClass().getInterfaces(),
             new ObjectsInstanceProxy<>(message));
-  //  TimeUnit.SECONDS.sleep(10);
+    //  TimeUnit.SECONDS.sleep(10);
     String take = message.take();
     System.out.println(take);
+    message.offer();
+
   }
 }

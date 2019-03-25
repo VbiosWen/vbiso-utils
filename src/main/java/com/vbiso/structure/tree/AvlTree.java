@@ -12,6 +12,11 @@ public class AvlTree<AnyType extends Comparable<? super AnyType>> {
 
   static final int ALLOWED_IMBALANCE = 1;
 
+  private AvlNode<AnyType> avlNode;
+
+  public AvlTree(AvlNode<AnyType> avlNode) {
+    this.avlNode = avlNode;
+  }
 
   public static class AvlNode<AnyType extends Comparable<? super AnyType>> {
 
@@ -40,10 +45,10 @@ public class AvlTree<AnyType extends Comparable<? super AnyType>> {
     int compareResult = element.compareTo(t.element);
     if (compareResult < 0) {
       //如果比当前节点小，插入左节点
-      return insert(element, t.left);
+      t.left = insert(element, t.left);
     } else if (compareResult > 0) {
       //如果比当前节点大，插入右节点
-      return insert(element, t.right);
+      t.right = insert(element, t.right);
     } else {
       //noting to do
     }
@@ -93,7 +98,7 @@ public class AvlTree<AnyType extends Comparable<? super AnyType>> {
     return rotateWithLeftChild(k3);
   }
 
-  //左节点深度-右节点深度>1 并且左节点的左节点的深度>=右节点的深度 右旋转 k1 上移，k2成为K1的右节点，并且k1的右节点变成k2的左节点
+  //左节点深度-右节点深度>1 并且左节点的左节点的深度>=右节点的深度 左旋转 k1 上移，k2成为K1的右节点，并且k1的右节点变成k2的左节点
   private AvlNode<AnyType> rotateWithLeftChild(AvlNode<AnyType> k2) {
     AvlNode<AnyType> k1 = k2.left;
     k2.left = k1.right;
@@ -101,6 +106,46 @@ public class AvlTree<AnyType extends Comparable<? super AnyType>> {
     k2.height = Math.max(height(k2.left), height(k2.right)) + 1;
     k1.height = Math.max(height(k1.left), height(k1.right)) + 1;
     return k1;
+  }
+
+  private AvlNode<AnyType> remove(AnyType x, AvlNode<AnyType> t) {
+    if (Objects.isNull(t)) {
+      return t;
+    }
+
+    int compareResult = x.compareTo(t.element);
+    if (compareResult < 0) {
+      t.left = remove(x, t.left);
+    } else if (compareResult > 0) {
+      t.right = remove(x, t.right);
+    } else if (Objects.nonNull(t.left) && Objects.nonNull(t.right)) {
+      t.element = findMin(t.right).element;
+      t.right = remove(t.element, t.right);
+    } else {
+      t = (Objects.nonNull(t.left)) ? t.left : t.right;
+    }
+    return balance(t);
+  }
+
+  private AvlNode<AnyType> findMin(AvlNode<AnyType> t) {
+    if (Objects.isNull(t)) {
+      return null;
+    } else if (Objects.isNull(t.left)) {
+      return t;
+    }
+    return findMin(t.left);
+  }
+
+
+  public static void main(String[] args) {
+    AvlNode<Integer> avlNode = new AvlNode<>(1);
+    AvlTree<Integer> avlTree = new AvlTree<>(avlNode);
+    avlTree.insert(2, avlNode);
+    avlTree.insert(5, avlNode);
+
+    avlTree.insert(6, avlNode);
+    avlTree.insert(3, avlNode);
+
   }
 
 }
