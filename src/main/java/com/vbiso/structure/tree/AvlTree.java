@@ -1,151 +1,181 @@
 package com.vbiso.structure.tree;
 
-import java.util.Objects;
-
 /**
  * @Author: wenliujie
  * @Description:
- * @Date: Created in 12:09 AM 2019/3/9
+ * @Date: Created in 9:29 PM 2019/4/3
  * @Modified By:
  */
-public class AvlTree<AnyType extends Comparable<? super AnyType>> {
+public class AvlTree<T extends Comparable<? super T>> {
 
-  static final int ALLOWED_IMBALANCE = 1;
+  AvlNode<T> element;
 
-  private AvlNode<AnyType> avlNode;
 
-  public AvlTree(AvlNode<AnyType> avlNode) {
-    this.avlNode = avlNode;
+  public AvlTree(T element) {
+    this.element = new AvlNode<>(element);
   }
 
-  public static class AvlNode<AnyType extends Comparable<? super AnyType>> {
+  public void insert(T element) {
+    this.element= this.element.insert(element, this.element);
+  }
 
-    public AvlNode(AnyType element) {
-      this.element = element;
+
+  public int height() {
+    return element.height(element);
+  }
+
+  public void print(){
+    print(element);
+  }
+
+  private void print(AvlNode<T> element) {
+    if(element !=null){
+      System.out.println(element.element);
+      print(element.leftChild);
+      print(element.rightChild);
     }
 
+  }
 
-    AnyType element;
 
-    AvlNode<AnyType> left;
+  static class AvlNode<T extends Comparable<? super T>> {
 
-    AvlNode<AnyType> right;
+    T element;
+
+    AvlNode<T> leftChild;
+
+    AvlNode<T> rightChild;
 
     int height;
-  }
 
-  private int height(AvlNode<AnyType> t) {
-    return Objects.isNull(t) ? -1 : t.height;
-  }
+    private static final int ALLOW_IMBALANCE = 1;
 
-  public AvlNode<AnyType> insert(AnyType element, AvlNode<AnyType> t) {
-    if (Objects.isNull(t)) {
-      return new AvlNode<>(element);
+    AvlNode(T element) {
+      this(element, null, null);
     }
-    int compareResult = element.compareTo(t.element);
-    if (compareResult < 0) {
-      //如果比当前节点小，插入左节点
-      t.left = insert(element, t.left);
-    } else if (compareResult > 0) {
-      //如果比当前节点大，插入右节点
-      t.right = insert(element, t.right);
-    } else {
-      //noting to do
-    }
-    return balance(t);
-  }
 
-  private AvlNode<AnyType> balance(AvlNode<AnyType> t) {
-    if (Objects.isNull(t)) {
-      return t;
+    AvlNode(T element, AvlNode<T> leftChild,
+        AvlNode<T> rightChild) {
+      this.element = element;
+      this.leftChild = leftChild;
+      this.rightChild = rightChild;
+      height = 0;
     }
-    if (height(t.left) - height(t.right) > ALLOWED_IMBALANCE) {
-      if (height(t.left.left) >= height(t.left.right)) {
-        t = rotateWithLeftChild(t);
-      } else {
-        t = doubleWithLeftChild(t);
+
+    AvlNode<T> insert(T element, AvlNode<T> parentNode) {
+
+      if (parentNode == null) {
+        return new AvlNode<>(element);
       }
-    } else {
-      if (height(t.right) - height(t.left) > ALLOWED_IMBALANCE) {
-        if (height(t.right.right) >= height(t.left.right)) {
-          t = rotateWithRightChild(t);
+
+      int compareResult = parentNode.element.compareTo(element);
+
+      if (compareResult > 0) {
+        parentNode.leftChild = insert(element, parentNode.leftChild);
+      } else if (compareResult < 0) {
+        parentNode.rightChild = insert(element, parentNode.rightChild);
+      }
+      return balance(parentNode);
+    }
+
+    private AvlNode<T> balance(AvlNode<T> parentNode) {
+
+      if (parentNode == null) {
+        return parentNode;
+      }
+
+      if (height(parentNode.leftChild) - height(parentNode.rightChild) > ALLOW_IMBALANCE) {
+        if (height(parentNode.leftChild.leftChild) >= height(parentNode.leftChild.rightChild)) {
+          parentNode = rotateWithLeftChild(parentNode);
         } else {
-          t = doubleWithRightChild(t);
+          parentNode = doubleWithLeftChild(parentNode);
+        }
+      } else if (height(parentNode.rightChild) - height(parentNode.leftChild) > ALLOW_IMBALANCE) {
+        if (height(parentNode.rightChild.rightChild) >= height(parentNode.rightChild.leftChild)) {
+          parentNode = rotateWithRightChild(parentNode);
+        } else {
+          parentNode = doubleWithRightChild(parentNode);
         }
       }
-    }
-    assert t != null;
-    t.height = Math.max(height(t.left), height(t.right)) + 1;
-    return t;
-  }
-
-  private AvlNode<AnyType> doubleWithRightChild(AvlNode<AnyType> k3) {
-    k3.right = rotateWithLeftChild(k3.right);
-    return rotateWithRightChild(k3);
-  }
-
-  private AvlNode<AnyType> rotateWithRightChild(AvlNode<AnyType> k2) {
-    AvlNode<AnyType> k1 = k2.right;
-    k2.right = k1.left;
-    k1.left = k2;
-    k2.height = Math.max(height(k2.left), height(k2.right)) + 1;
-    k1.height = Math.max(height(k1.left), height(k1.right)) + 1;
-    return k1;
-  }
-
-  private AvlNode<AnyType> doubleWithLeftChild(AvlNode<AnyType> k3) {
-    k3.left = rotateWithRightChild(k3.left);
-    return rotateWithLeftChild(k3);
-  }
-
-  //左节点深度-右节点深度>1 并且左节点的左节点的深度>=右节点的深度 左旋转 k1 上移，k2成为K1的右节点，并且k1的右节点变成k2的左节点
-  private AvlNode<AnyType> rotateWithLeftChild(AvlNode<AnyType> k2) {
-    AvlNode<AnyType> k1 = k2.left;
-    k2.left = k1.right;
-    k1.right = k2;
-    k2.height = Math.max(height(k2.left), height(k2.right)) + 1;
-    k1.height = Math.max(height(k1.left), height(k1.right)) + 1;
-    return k1;
-  }
-
-  private AvlNode<AnyType> remove(AnyType x, AvlNode<AnyType> t) {
-    if (Objects.isNull(t)) {
-      return t;
+      parentNode.height = Math.max(height(parentNode.leftChild), height(parentNode.rightChild)) + 1;
+      return parentNode;
     }
 
-    int compareResult = x.compareTo(t.element);
-    if (compareResult < 0) {
-      t.left = remove(x, t.left);
-    } else if (compareResult > 0) {
-      t.right = remove(x, t.right);
-    } else if (Objects.nonNull(t.left) && Objects.nonNull(t.right)) {
-      t.element = findMin(t.right).element;
-      t.right = remove(t.element, t.right);
-    } else {
-      t = (Objects.nonNull(t.left)) ? t.left : t.right;
+    private AvlNode<T> doubleWithRightChild(AvlNode<T> k3) {
+      k3.rightChild = rotateWithLeftChild(k3.rightChild);
+      return rotateWithRightChild(k3);
     }
-    return balance(t);
-  }
 
-  private AvlNode<AnyType> findMin(AvlNode<AnyType> t) {
-    if (Objects.isNull(t)) {
-      return null;
-    } else if (Objects.isNull(t.left)) {
-      return t;
+    private AvlNode<T> doubleWithLeftChild(AvlNode<T> k3) {
+
+      k3.leftChild = rotateWithRightChild(k3.leftChild);
+
+      return rotateWithLeftChild(k3);
     }
-    return findMin(t.left);
-  }
 
+    private AvlNode<T> rotateWithRightChild(AvlNode<T> k1) {
+
+      AvlNode<T> k2 = k1.rightChild;
+      k1.rightChild = k2.leftChild;
+      k2.leftChild = k1;
+
+
+      k1.height = Math.max(height(k1.leftChild), height(k1.rightChild)) + 1;
+      k2.height = Math.max(height(k2.leftChild), height(k2.rightChild)) + 1;
+
+      return k2;
+    }
+
+    private AvlNode<T> remove(T x1, AvlNode<T> parentNode) {
+      int compareResult = parentNode.element.compareTo(x1);
+
+      if (compareResult < 0) {
+        remove(x1, parentNode.leftChild);
+      } else if (compareResult > 0) {
+        remove(x1, parentNode.rightChild);
+      } else if (parentNode.leftChild != null && parentNode.rightChild != null) {
+        parentNode.element = findMin(parentNode.rightChild).element;
+        parentNode.rightChild = remove(parentNode.element, parentNode.rightChild);
+      } else {
+        parentNode = (parentNode.leftChild != null) ? parentNode.leftChild : parentNode.rightChild;
+      }
+      return balance(parentNode);
+    }
+
+    private AvlNode<T> findMin(AvlNode<T> parentNode) {
+      if (parentNode.leftChild == null) {
+        return parentNode;
+      }
+      return findMin(parentNode.leftChild);
+    }
+
+    private AvlNode<T> rotateWithLeftChild(AvlNode<T> k2) {
+      AvlNode<T> k1 = k2.leftChild;
+      k2.leftChild = k1.rightChild;
+      k1.rightChild = k2;
+
+      k2.height = Math.max(height(k2.leftChild), height(k2.rightChild) + 1);
+
+      k1.height = Math.max(height(k1.leftChild), height(k1.rightChild) + 1);
+
+      return k1;
+    }
+
+    int height(AvlNode<T> node) {
+      return node == null ? -1 : node.height;
+    }
+  }
 
   public static void main(String[] args) {
-    AvlNode<Integer> avlNode = new AvlNode<>(1);
-    AvlTree<Integer> avlTree = new AvlTree<>(avlNode);
-    avlTree.insert(2, avlNode);
-    avlTree.insert(5, avlNode);
+    AvlTree<Integer> avlTree = new AvlTree<>(1);
 
-    avlTree.insert(6, avlNode);
-    avlTree.insert(3, avlNode);
+    avlTree.insert(2);
+    avlTree.insert(3);
+    avlTree.insert(4);
+    avlTree.insert(5);
+    avlTree.insert(6);
 
+    avlTree.print();
   }
 
 }

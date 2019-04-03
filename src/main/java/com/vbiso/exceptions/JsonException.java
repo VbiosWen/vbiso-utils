@@ -11,6 +11,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
  */
 public class JsonException extends JsonProcessingException {
 
+  private static final long serialVersionUID = -7836346167236086231L;
+
   protected JsonException(String msg, JsonLocation loc,
       Throwable rootCause) {
     super(msg, loc, rootCause);

@@ -18,25 +18,7 @@ public class HelloTestThread {
 
 
   public static void main(String[] args) {
-    new Thread(new HelloTestTask("vbiso-001")).start();
-    new Thread(new HelloTestTask("vbiso-002")).start();
-
-    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
-
-    ThreadPoolExecutor executor1 = new ThreadPoolExecutor(1, 1, TimeUnit.SECONDS.toSeconds(1),
-        TimeUnit.SECONDS, new LinkedBlockingQueue<>(10), new ThreadFactory() {
-      private AtomicInteger atomicInteger = new AtomicInteger(0);
-      @Override
-      public Thread newThread(Runnable r) {
-        return new Thread(r, "ThreadPool-" + atomicInteger.incrementAndGet());
-      }
-    }, (r, executor2) -> {
-      try {
-        executor2.getQueue().put(r);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-    });
+   System.out.println("HelloWorld");
   }
 
 }

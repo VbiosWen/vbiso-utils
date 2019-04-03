@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - HelloTestThread",
+            "request": "launch",
+            "mainClass": "com.vbiso.HelloTestThread",
+            "projectName": "vbiso-utils"
+        }
+    ]
+}
