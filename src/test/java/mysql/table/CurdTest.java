@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -132,9 +133,50 @@ public class CurdTest extends TestBase {
       PreparedStatement preparedStatement = connection.prepareStatement(sql);
       preparedStatement.setString(1,"wenliujie");
       preparedStatement.setLong(2,1L);
-      preparedStatement.execute();
+      int i = preparedStatement.executeUpdate();
+      System.out.println(i);
     } catch (SQLException e) {
       e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void testTransaction(){
+    Savepoint savepoint = null;
+    try {
+      connection.setAutoCommit(false);
+      connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+
+      String sql = "insert into author(name,homeland) values(?,?)";
+      PreparedStatement preparedStatement = connection.prepareStatement(sql);
+      preparedStatement.setString(1,"testTransaction");
+      preparedStatement.setString(2,"transaction");
+      preparedStatement.executeUpdate();
+
+      String update = "update author set name = ? where name = ?";
+      PreparedStatement preparedStatement1 = connection.prepareStatement(update);
+      preparedStatement1.setString(1,"updateTransaction");
+      preparedStatement1.setString(2,"testTransaction");
+      preparedStatement1.executeUpdate();
+
+      savepoint = connection.setSavepoint();
+
+      String select = "select * from author id =1";
+      PreparedStatement preparedStatement2 = connection.prepareStatement(select);
+      ResultSet resultSet = preparedStatement2.executeQuery();
+
+    } catch (SQLException e) {
+      try {
+        connection.rollback(savepoint);
+      } catch (SQLException ex) {
+      }
+    }
+    try {
+      connection.commit();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }finally {
+      closeConnection();
     }
   }
 
