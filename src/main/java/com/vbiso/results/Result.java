@@ -1,5 +1,7 @@
 package com.vbiso.results;
 
+import java.util.function.Supplier;
+
 /**
  * @Author: wenliujie
  * @Description:
@@ -37,6 +39,10 @@ public class Result<T> {
     this.code = code;
     this.success = success;
     this.cause = cause;
+  }
+
+  public T orElseGet(Supplier<? extends T> supplier){
+    return data !=null ? data :supplier.get();
   }
 
   public static <T> Result<T> createResult() {

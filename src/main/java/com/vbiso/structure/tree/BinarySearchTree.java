@@ -118,7 +118,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
     }
 
     private void remove(AnyType element) {
-      if (isEmpty()) {
+       if (isEmpty()) {
         throw new RuntimeException();
       }
       this.root = remove(element, root);

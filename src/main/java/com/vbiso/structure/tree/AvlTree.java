@@ -25,14 +25,37 @@ public class AvlTree<T extends Comparable<? super T>> {
   }
 
   public void print(){
-    print(element);
+    printFront(element);
+    System.out.println();
+    printCenter(element);
+    System.out.println();
+    printBack(element);
+    System.out.println();
   }
 
-  private void print(AvlNode<T> element) {
+  private void printBack(AvlNode<T> element) {
     if(element !=null){
-      System.out.println(element.element);
-      print(element.leftChild);
-      print(element.rightChild);
+      printBack(element.leftChild);
+      printBack(element.rightChild);
+      System.out.print(element.element);
+    }
+
+  }
+
+  private void printCenter(AvlNode<T> element) {
+    if(element !=null){
+      printCenter(element.leftChild);
+      System.out.print(element.element);
+      printCenter(element.rightChild);
+    }
+
+  }
+
+  private void printFront(AvlNode<T> element) {
+    if(element !=null) {
+      System.out.print(element.element);
+      printFront(element.leftChild);
+      printFront(element.rightChild);
     }
 
   }

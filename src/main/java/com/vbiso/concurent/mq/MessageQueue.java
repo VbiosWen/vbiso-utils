@@ -21,10 +21,12 @@ public class MessageQueue {
   public  void put(MessageContext messageContext){
     lock.lock();
     try {
-
       messageContexts.put(messageContext);
+      condition.await();
     } catch (InterruptedException e) {
       e.printStackTrace();
+    }finally {
+      lock.unlock();
     }
   }
 
