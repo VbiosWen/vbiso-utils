@@ -161,7 +161,7 @@ public class CurdTest extends TestBase {
 
       savepoint = connection.setSavepoint();
 
-      String select = "select * from author id =1";
+      String select = "select * from author where id =1";
       PreparedStatement preparedStatement2 = connection.prepareStatement(select);
       ResultSet resultSet = preparedStatement2.executeQuery();
 
