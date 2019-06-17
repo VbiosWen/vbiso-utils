@@ -20,6 +20,11 @@ public class BinaryOperation {
     return (number & (number - 1)) == 0;
   }
 
+  /**
+   * 获取当前数字二进制包含 1 的个数
+   * @param number
+   * @return
+   */
   public static int countTheNumberOfOne(long number){
     int count = 0;
     while (number != 0){
