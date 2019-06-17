@@ -20,4 +20,13 @@ public class BinaryOperation {
     return (number & (number - 1)) == 0;
   }
 
+  public static int countTheNumberOfOne(long number){
+    int count = 0;
+    while (number != 0){
+      count ++;
+      number = number &(number -1);
+    }
+    return count;
+  }
+
 }
