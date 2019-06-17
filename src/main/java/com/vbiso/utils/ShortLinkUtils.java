@@ -62,9 +62,7 @@ public class ShortLinkUtils {
 
     countDownLatch.await();
 
-    for(String shortUrl : shortUrlList){
-      System.out.println(shortUrl);
-    }
+    System.out.println(shortUrlList.size());
 
     long end = Instant.now().toEpochMilli();
 
@@ -82,7 +80,7 @@ public class ShortLinkUtils {
 
     private final List<String> shortUrlList;
 
-    private static final Object lock = new Object();
+    private static final byte[] lock = new byte[0];
 
     public ShortUrlTask(CountDownLatch countDownLatch,int shortUrlCount,List<String> shortUrlList) {
       this.countDownLatch = countDownLatch;
