@@ -25,14 +25,14 @@ public class HttpClientTest {
   @Test
   public void testCreateYpUser() throws IOException {
     List<Long> idList = Lists.newArrayList();
-    for(int i = 0 ;i < 100;i++) {
+    for (int i = 0; i < 100; i++) {
       JSONObject jsonObject = new JSONObject();
       jsonObject.put("marketUser", Boolean.TRUE);
       jsonObject.put("nick", "yp-wlj-test" + i);
-      jsonObject.put("parentUserId",890000500020216259L);
+      jsonObject.put("parentUserId", 0L);
       try {
         String post = HttpClientUtils
-            .post("http://115.159.115.175:8026/sms-user-service/user-model-sync/createYpSubUser",
+            .post("",
                 jsonObject.toJSONString());
         JSONObject jsonObject1 = JSONObject.parseObject(post);
         Long userId = jsonObject1.getJSONObject("data").getLong("userId");
@@ -47,7 +47,7 @@ public class HttpClientTest {
   private void writeFile(List<Long> idList) throws IOException {
     Path localFile = FileUtil.getLocalFile("/Users/vbisowen", "users.txt");
     BufferedWriter writer = new BufferedWriter(new FileWriter(localFile.toFile()));
-    for(Long id : idList){
+    for (Long id : idList) {
       writer.write(String.valueOf(id));
       writer.newLine();
     }
@@ -56,7 +56,7 @@ public class HttpClientTest {
   }
 
   @Test
-  public void test(){
+  public void test() {
     byte by = (byte) 129;
     System.out.println(by);
   }
@@ -66,7 +66,7 @@ public class HttpClientTest {
   public void testReadFile() throws IOException {
     Path localFile = FileUtil.getLocalFile("/Users/vbisowen/Desktop", "tmp_sms_template.csv");
     BufferedReader bufferedReader = new BufferedReader(new FileReader(localFile.toFile()));
-    while (bufferedReader.read() > 0){
+    while (bufferedReader.read() > 0) {
       String s = bufferedReader.readLine();
       System.out.println(s);
     }
