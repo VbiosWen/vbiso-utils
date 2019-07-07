@@ -3,7 +3,6 @@ package com.vbiso.utils;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import org.apache.http.HttpStatus;
@@ -44,7 +43,7 @@ public class HttpClientUtils {
     HttpPost post = new HttpPost(url);
     post.setConfig(requestConfig);
     post.setHeader("Content-type", "application/json;charset=utf-8");
-    StringEntity entity = new StringEntity(str, Charset.forName("utf-8"));
+    StringEntity entity = new StringEntity(str, StandardCharsets.UTF_8);
     post.setEntity(entity);
     CloseableHttpResponse resp = httpClient.execute(post);
 
