@@ -1,11 +1,13 @@
 package com.vbiso.utils;
 
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @Author: wenliujie
@@ -35,14 +37,17 @@ public class ThreadPoolUtil {
       private AtomicInteger atomicInteger = new AtomicInteger(0);
 
       @Override
-      public Thread newThread(Runnable r) {
-        return new Thread(r, DEFAULT_THREAD_POOL_NAME + atomicInteger.incrementAndGet());
+      public Thread newThread(@NotNull Runnable r) {
+        Thread thread = new Thread(r, DEFAULT_THREAD_POOL_NAME + atomicInteger.incrementAndGet());
+        thread.setUncaughtExceptionHandler(new ThreadExceptionHandler());
+        thread.setDaemon(Boolean.FALSE);
+        return thread;
       }
     });
   }
 
   private ThreadPoolUtil(int initThreadSize, int maxThreadSize, TimeUnit timeUnit,
-      long keepAliveTime,  String threadName, int waitQueueSize, RejectedExecutionHandler handler) {
+      long keepAliveTime, String threadName, int waitQueueSize, RejectedExecutionHandler handler) {
 
     LinkedBlockingQueue<Runnable> queue = new LinkedBlockingQueue<>(waitQueueSize);
     this.executor = new ThreadPoolExecutor(initThreadSize, maxThreadSize, keepAliveTime, timeUnit,
@@ -50,7 +55,7 @@ public class ThreadPoolUtil {
       private AtomicInteger atomicInteger = new AtomicInteger();
 
       @Override
-      public Thread newThread(Runnable r) {
+      public Thread newThread(@NotNull Runnable r) {
         return new Thread(r, threadName + "-" + atomicInteger.incrementAndGet());
       }
     }, handler);
@@ -70,7 +75,8 @@ public class ThreadPoolUtil {
 
   public static void main(String[] args) {
     ThreadPoolExecutor defaultThreadPool = createDefaultThreadPool();
-    ThreadPoolExecutor test = createCustomizeThreadPool(DEFAULT_INIT_THREAD_SIZE, DEFAULT_MAX_THREAD_SIZE,
+    ThreadPoolExecutor test = createCustomizeThreadPool(DEFAULT_INIT_THREAD_SIZE,
+        DEFAULT_MAX_THREAD_SIZE,
         TimeUnit.SECONDS, 1L, "test",
         10, (r, executor1) -> {
           try {
@@ -84,6 +90,14 @@ public class ThreadPoolUtil {
     test.execute(() -> System.out.println("hello world"));
     if (test.getQueue().size() == 0) {
       test.shutdown();
+    }
+  }
+
+  private class ThreadExceptionHandler implements UncaughtExceptionHandler {
+
+    @Override
+    public void uncaughtException(Thread t, Throwable e) {
+      System.out.printf("%s throw an throwable" + e, t.getName());
     }
   }
 
